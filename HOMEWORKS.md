@@ -68,3 +68,53 @@ Categories.CategoryID=8
 UPDATE Customers
 SET ContactName=''
 WHERE Country!='China'
+
+## Homework 3  
+
+### 1. Вывести ко-во заказов, которое компания Speedy Express доставила в Brazil
+   SELECT COUNT(*)  
+   FROM OrderDetails  
+   JOIN Orders ON OrderDetails.OrderID=Orders.OrderID  
+   JOIN Shippers ON Orders.ShipperID=Shippers.ShipperID  
+   JOIN Customers ON Orders.CustomerID=Customers.CustomerID  
+   WHERE  
+   Shippers.ShipperName="Speedy Express" AND  
+   Customers.Country="Brazil"  
+    Ответ: 22
+
+### 2. Вывести среднюю стоимость проданного в Germany товара
+   SELECT AVG(OrderDetails.Quantity*Products.Price) AS avg_sold_to_Germany  
+   FROM OrderDetails  
+   JOIN Products ON OrderDetails.ProductID=Products.ProductID  
+   JOIN Orders ON OrderDetails.OrderID=Orders.OrderID  
+   JOIN Customers ON Orders.CustomerID=Customers.CustomerID  
+   WHERE  
+   Customers.Country="Germany"  
+    Ответ: 667.8106756756756
+
+### 3. Вывести ко-во и сред/стоимость товаров из USA
+   SELECT COUNT(*) AS total_count_products_from_usa,  
+   AVG(Products.Price) AS avg_price_products_from_usa  
+   FROM Products  
+   JOIN Suppliers ON Products.SupplierID=Suppliers.SupplierID  
+   WHERE  
+   Suppliers.Country='USA'  
+    Ответ: кол-во - 12 , сред.стоимость 20.870833333333334
+
+### 4. Вывести стоимость и название двух самых дешевых товаров из Germany
+   SELECT  
+   Products.Price,  
+   Products.ProductName  
+   FROM Products  
+   JOIN Suppliers ON Products.SupplierID=Suppliers.SupplierID  
+   WHERE  
+   Suppliers.Country like 'germany'  
+   ORDER BY Products.Price  
+   LIMIT 2  
+    Ответ: 7.75  Rhönbräu Klosterbier , 13 Original Frankfurter grüne Soße
+
+### 5. Применить наценку в 15% ко всем товарам из категории 4  
+   UPDATE Products  
+   SET Price=Price*1.15  
+   WHERE CategoryID='4'  
+    Ответ: You have made changes to the database. Rows affected: 10
